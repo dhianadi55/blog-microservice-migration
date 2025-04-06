@@ -1,0 +1,28 @@
+version: '3'
+services:
+  auth-service:
+    build: ./auth-service
+    ports:
+      - '3001:3001'
+    depends_on:
+      - mongo-auth
+
+  post-service:
+    build: ./post-service
+    ports:
+      - '3002:3002'
+    depends_on:
+      - mongo-post
+
+  mongo-auth:
+    image: mongo
+
+  mongo-post:
+    image: mongo
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - '80:80'
